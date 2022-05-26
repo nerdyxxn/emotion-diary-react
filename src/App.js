@@ -14,10 +14,7 @@ const reducer = (state, action) => {
       return action.data;
     }
     case "CREATE": {
-      const newItem = {
-        ...action.data,
-      };
-      newState = [newItem, ...state];
+      newState = [action.data, ...state];
       break;
     }
     case "REMOVE": {
@@ -49,7 +46,7 @@ const dummyData = [
 
 function App() {
   const [data, dispatch] = useReducer(reducer, dummyData);
-  const dataId = useRef(0);
+  const dataId = useRef(6);
 
   // CREATE
   const onCreate = (date, content, emotion) => {
@@ -57,9 +54,9 @@ function App() {
       type: "CREATE",
       data: {
         id: dataId.current,
-        date: new Date(date).getTime(),
-        content,
         emotion,
+        content,
+        date: new Date(date).getTime(),
       },
     });
     dataId.current += 1;
