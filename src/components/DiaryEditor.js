@@ -17,12 +17,13 @@ const DiaryEditor = ({ isEdit, originData }) => {
   const navigate = useNavigate();
 
   // App 컴포넌트로부터 Dispatch 함수 공급 받기
-  const { onCreate, onEdit } = useContext(DiaryDispatchContext);
+  const { onCreate, onEdit, onRemove } = useContext(DiaryDispatchContext);
 
   const handleClickEmote = emotion => {
     setEmotion(emotion);
   };
 
+  // [작성완료] 버튼 클릭 시 데이터 핸들링
   const handleSubmit = () => {
     if (content.length < 1) {
       contentRef.current.focuse();
@@ -37,12 +38,21 @@ const DiaryEditor = ({ isEdit, originData }) => {
       if (!isEdit) {
         onCreate(date, content, emotion);
       } else {
-        onEdit(originData.id, date, content, emotion);
+        onEdit(originData.id, emotion, content, date);
       }
     }
     navigate("/", { replace: true });
   };
 
+  // [삭제하기] 버튼 클릭 시 데이터 remove
+  const handleRemove = () => {
+    if (window.confirm("정말 삭제하시겠습니까?")) {
+      onRemove(originData.id);
+      navigate("/", { replace: true });
+    }
+  };
+
+  // isEdit이 true, 즉 수정중인 상태라면 기존 일기 데이터를 가져와서 화면에 출력
   useEffect(() => {
     if (isEdit) {
       setDate(getStringDate(new Date(parseInt(originData.date))));
@@ -62,6 +72,15 @@ const DiaryEditor = ({ isEdit, originData }) => {
               navigate(-1);
             }}
           />
+        }
+        rightChild={
+          isEdit && (
+            <MyButton
+              text={"삭제하기"}
+              type={"negative"}
+              onClick={handleRemove}
+            />
+          )
         }
       />
       <div>
