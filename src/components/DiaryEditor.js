@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { useState, useRef, useContext, useEffect } from "react";
+import { useState, useRef, useContext, useEffect, useCallback } from "react";
 import { DiaryDispatchContext } from "../App";
 
 import MyHeader from "./MyHeader";
@@ -19,9 +19,10 @@ const DiaryEditor = ({ isEdit, originData }) => {
   // App 컴포넌트로부터 Dispatch 함수 공급 받기
   const { onCreate, onEdit, onRemove } = useContext(DiaryDispatchContext);
 
-  const handleClickEmote = emotion => {
+  // 최적화를 위해 useCallBack 적용
+  const handleClickEmote = useCallback(emotion => {
     setEmotion(emotion);
-  };
+  }, []);
 
   // [작성완료] 버튼 클릭 시 데이터 핸들링
   const handleSubmit = () => {
