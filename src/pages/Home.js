@@ -12,6 +12,11 @@ const Home = () => {
   const [curDate, setCurDate] = useState(new Date());
   const headText = `${curDate.getFullYear()}년 ${curDate.getMonth() + 1}월`;
 
+  useEffect(() => {
+    const titleElement = document.getElementsByTagName("title")[0];
+    titleElement.innerHTML = `Emotion Diary`;
+  }, []);
+
   //월이 바뀌면 해당 월의 data만 가져와야 하기 때문에 useEffect로 diaryList, curDate가 바뀔 때 초기값 설정
   useEffect(() => {
     if (diaryList.length >= 1) {

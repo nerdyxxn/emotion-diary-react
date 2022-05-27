@@ -48,15 +48,17 @@ function App() {
       const diaryList = JSON.parse(localData).sort(
         (a, b) => parseInt(b.id) - parseInt(a.id)
       );
-      // dataId 중복되지 않도록 localStorage 안에 있는 id 중 가장 큰 값에 +1 해주기
-      // sort 사용해 내림차순으로 정렬한 다음 0번째 요소 가져올 것
-      dataId.current = parseInt(diaryList[0].id) + 1;
 
-      // 가져온 diaryList를 data state의 초기값으로 설정
-      dispatch({
-        type: "INIT",
-        data: diaryList,
-      });
+      if (diaryList.length >= 1) {
+        // dataId 중복되지 않도록 localStorage 안에 있는 id 중 가장 큰 값에 +1 해주기
+        // sort 사용해 내림차순으로 정렬한 다음 0번째 요소 가져올 것
+        dataId.current = parseInt(diaryList[0].id) + 1;
+        // 가져온 diaryList를 data state의 초기값으로 설정
+        dispatch({
+          type: "INIT",
+          data: diaryList,
+        });
+      }
     }
   }, []);
 
